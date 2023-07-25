@@ -11,24 +11,34 @@ window.addEventListener("load", function() {
         for (let i = 0; i < data.length; i++) {
             sortedData.push(data[i]);
         }
-        sortedData = sortedData.sort();
+        sortedData = data.sort(function(a, b){return a.hoursInSpace-b.hoursInSpace});
         console.log("Sorted data: ", sortedData);
+
+        let activeColor;
         // For-loop Attempt #1
         for (let i = 0; i < data.length; i++){
+            if (sortedData[i].active) {
+                activeColor = "green";
+            } else {
+                activeColor = "black";
+            };
             container.innerHTML += `
             <div class="astronaut">
                 <div class="bio">
-                    <h3>${data[i].firstName} ${data[i].lastName}</h3>
+                    <h3>${sortedData[i].firstName} ${sortedData[i].lastName}</h3>
                     <ul>
-                        <li>Hours in space: ${data[i].hoursInSpace}</li>
-                        <li>Active: ${data[i].active}</li>
-                        <li>Skills: ${data[i].skills.join(', ')}</li>
+                        <li>Hours in space: ${sortedData[i].hoursInSpace}</li>
+                        <li style="color: ${activeColor}">Active: ${sortedData[i].active}</li>
+                        <li>Skills: ${sortedData[i].skills.join(', ')}</li>
                     </ul>
                 </div>
-                <img class="avatar" src= "${data[i].picture}"> 
+                <img class="avatar" src= "${sortedData[i].picture}"> 
             </div>
-        `;
+            `;
         };
+
+        const header = document.querySelector("h1");
+        header.innerHTML = `Number of Astronauts: ${sortedData.length}`; 
 
         // Single array element
         // container.innerHTML = `
